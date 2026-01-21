@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المسبحة الاحترافية الكاملة</title>
+  <style>
+    /* --- CSS التنسيقات --- */
+    * { -webkit-tap-highlight-color: transparent; -webkit-user-select: none; box-sizing: border-box; }
+
+    body {
+      display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;
+      background-color: #f0f0f0; background-image: url('1 (1).gif'); background-size: cover;
+      background-position: center; flex-direction: column; overflow: hidden; font-family: sans-serif;
+    }
+
+    .circle {
+      width: 90vw; height: 90vw; max-width: 600px; max-height: 600px; 
+      background-color: #4caf50; border-radius: 50%;
+      display: flex; justify-content: center; align-items: center; 
+      font-size: clamp(6rem, 30vw, 13rem); color: white; text-shadow: 2px 5px 20px rgba(0,0,0,0.7);
+      margin-bottom: 20px; position: relative; cursor: pointer;
+      background-image: url('1 (1).gif'); background-size: cover; background-position: center;
+      transition: all 0.2s ease; border: 12px solid rgba(255,255,255,0.4);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+    }
+    .circle:active { transform: scale(0.93); }
+
+    /* تأثير اللون الأصفر عند الهدف */
+    @keyframes goalEffect {
+      0% { transform: scale(1); border-color: rgba(255,255,255,0.4); box-shadow: 0 25px 60px rgba(0,0,0,0.6); }
+      50% { transform: scale(1.05); border-color: #ffd700; box-shadow: 0 0 80px #ffd700; }
+      100% { transform: scale(1); border-color: rgba(255,255,255,0.4); box-shadow: 0 25px 60px rgba(0,0,0,0.6); }
+    }
+    .active-goal { animation: goalEffect 0.5s ease-in-out 3; border: 12px solid #ffd700 !important; }
+
+    .button { 
+      padding: 15px 30px; background-color: #ff4757; color: white; border: none; 
+      border-radius: 10px; cursor: pointer; position: absolute; top: 15px; right: 10px; 
+      font-weight: bold; z-index: 10; font-size: 1.1rem; 
+    }
+
+    .counter { 
+      position: absolute; bottom: 25px; left: 25px; font-size: 1.6rem; z-index: 8; 
+      background: rgba(255,255,255,0.9); padding: 10px 20px; border-radius: 15px; 
+      border: 2px solid #4caf50; font-weight: bold; 
+    }
+
+    .menu-button { 
+      position: absolute; top: 15px; left: 5px; background-color: #2f3542; color: white; 
+      padding: 12px 20px; border: none; border-radius: 10px; cursor: pointer; z-index: 100; font-size: 1.2rem; 
+    }
+
+    .dropdown-menu {
+      position: absolute; top: 40px; left: 15px; background-color: white;
+      color: #333; border-radius: 15px; padding: 25px; display: none; flex-direction: column; 
+      width: 300px; z-index: 90; box-shadow: 0 15px 40px rgba(0,0,0,0.4); border: 1px solid #ddd;
+      max-height: 85vh; overflow-y: auto;
+    }
+
+    .dropdown-menu label { margin-top: 12px; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+    .styled-select { width: 100%; padding: 8px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; background: #f9f9f9; }
+    
+    .volume-control { background: #f8f9fa; padding: 10px; border-radius: 10px; margin-top: 10px; }
+    .volume-control input { width: 100%; margin-top: 5px; }
+
+    hr { width: 100%; margin: 15px 0; border: 0; border-top: 1px solid #eee; }
+
+    .danger-btn { 
+      background: #fff5f5; color: #ff4757; border: 1px solid #ff4757; padding: 12px; 
+      margin-top: 20px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; 
+    }
+
+    .dialog-box {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background-color: white; padding: 30px; border-radius: 25px;
+      display: none; width: 320px; text-align: center; z-index: 110; 
+      box-shadow: 0 0 150px rgba(0,0,0,0.6); border: 4px solid #ff4757;
+    }
+    .dialog-box p { font-size: 2.5rem; margin: 15px 0; color: #ff4757; font-weight: bold; }
+    .dialog-box button { margin: 10px 5px; padding: 12px 20px; border: none; border-radius: 10px; cursor: pointer; width: 120px; font-weight: bold; }
+    
+    .btn-confirm { background-color: #ff4757; color: white; }
+    .btn-cancel { background-color: #e9ecef; color: #333; }
+
+    .clock { position: absolute; top: 15px; left: 50%; transform: translateX(-50%); font-size: 2.5rem; color: #000; font-weight: 900; z-index: 10; }
+  </style>
+</head>
+<body>
+
+  <div style="display:none;">
+    <audio id="clickSound1" src="1 (1).mp3" preload="auto"></audio>
+    <audio id="clickSound2" src="1 (2).mp3" preload="auto"></audio>
+    <audio id="clickSound3" src="1 (3).mp3" preload="auto"></audio>
+    <audio id="clickSound4" src="1 (4).mp3" preload="auto"></audio>
+    <audio id="clickSound5" src="1 (5).mp3" preload="auto"></audio>
+    <audio id="clickSound6" src="1 (6).mp3" preload="auto"></audio>
+    <audio id="clickSound7" src="1 (7).mp3" preload="auto"></audio>
+    <audio id="clickSound8" src="1 (8).mp3" preload="auto"></audio>
+    <audio id="clickSound9" src="1 (9).mp3" preload="auto"></audio>
+
+    <audio id="errorSound1" src="1 (w).mp3" preload="auto"></audio>
+    <audio id="errorSound2" src="1 (8).mp3" preload="auto"></audio>
+    <audio id="errorSound3" src="1 (6).mp3" preload="auto"></audio>
+
+    <audio id="sound1" src="عادل سبحان الله.mp3" preload="auto"></audio>
+    <audio id="sound2" src="عادل الحمد لله.mp3" preload="auto"></audio>
+    <audio id="sound3" src="عادل الله اكبر.mp3" preload="auto"></audio>
+    <audio id="sound4" src="عادل لا اله الا الله.mp3" preload="auto"></audio>
+    <audio id="sound5" src="أشهد أن لا إله الا الله.mp3" preload="auto"></audio>
+    <audio id="sound6" src="الله اكبر1.mp3" preload="auto"></audio>
+    <audio id="resetSoundOld" src="1 (a).mp3" preload="auto"></audio>
+  </div>
+
+  <button class="menu-button" id="menuButton">☰ الإعدادات</button>
+
+  <div class="dropdown-menu" id="dropdownMenu">
+    <div class="mute-all-box">
+      <label>كتم جميع الأصوات 🔇 <input type="checkbox" id="muteAllCheck"></label>
+    </div>
+
+    <div class="volume-control">
+      <label>مستوى الصوت: <span id="volValue">100%</span></label>
+      <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1">
+    </div>
+
+    <hr>
+
+    <label>صوت الضغط:</label>
+    <select id="clickSoundSelect" class="styled-select">
+      <option value="clickSound1">صوت 1</option><option value="clickSound2">صوت 2</option>
+      <option value="clickSound3">صوت 3</option><option value="clickSound4">صوت 4</option>
+      <option value="clickSound5">صوت 5</option><option value="clickSound6">صوت 6</option>
+      <option value="clickSound7">صوت 7</option><option value="clickSound8">صوت 8</option>
+      <option value="clickSound9">صوت 9</option>
+    </select>
+
+    <label>صوت التصفير:</label>
+    <select id="errorSoundSelect" class="styled-select">
+      <option value="errorSound1">تصفير 1</option>
+      <option value="errorSound2">تصفير 2</option>
+      <option value="errorSound3">تصفير 3</option>
+    </select>
+
+    <label>كتم صوت الضغط <input type="checkbox" id="muteClickCheck"></label>
+    <label>كتم صوت التصفير <input type="checkbox" id="muteResetCheck"></label>
+    
+    <hr>
+
+    <label>صوت التنبيه (الهدف):</label>
+    <select id="soundSelect" class="styled-select">
+      <option value="sound1">سبحان الله</option><option value="sound2">الحمد لله</option>
+      <option value="sound3">الله اكبر</option><option value="sound4">لا اله الا الله</option>
+      <option value="sound5">أشهد أن لا إله الا الله</option><option value="sound6">1 الله اكبر</option>
+    </select>
+
+    <label>الهدف (تنبيه كل):</label>
+    <select id="goalSelect" class="styled-select">
+      <option value="0">بدون هدف</option>
+      <option value="33">33</option>
+      <option value="100">100</option>
+      <option value="133">133</option>
+      <option value="500">500</option>
+      <option value="1000">1000</option>
+      <option value="custom">رقم مخصص...</option>
+    </select>
+    <input type="number" id="customGoalInput" placeholder="أدخل الرقم" class="styled-select" style="display:none;">
+
+    <button id="resetTotalBtn" class="danger-btn">تصفير الإجمالي العام 00</button>
+  </div>
+
+  <div class="circle" id="circle"><span id="circleCount">0</span></div>
+  <button class="button" id="resetButton">تصفير</button>
+  <div class="counter"><span>الإجمالي: </span><span id="countDisplay">0</span></div>
+
+  <div class="dialog-box" id="dialogBox">
+    <h3>تصفير الدورة؟</h3>
+    <p id="dialogNumber">0</p>
+    <button class="btn-confirm" id="resetConfirm">تصفير</button>
+    <button class="btn-cancel" id="cancelReset">إلغاء</button>
+  </div>
+
+  <div class="clock" id="clock">00:00</div>
+
+  <script>
+    /* --- JavaScript البرمجة --- */
+    let circleCount = parseInt(localStorage.getItem("circleCount")) || 0;
+    let totalCount = parseInt(localStorage.getItem("totalCount")) || 0;
+    let muteAll = localStorage.getItem("muteAll") === "true";
+    let muteClick = localStorage.getItem("muteClick") === "true";
+    let muteReset = localStorage.getItem("muteReset") === "true";
+    
+    let selectedClickSound = localStorage.getItem("selectedClickSound") || "clickSound1";
+    let selectedResetSound = localStorage.getItem("selectedResetSound") || "errorSound1";
+    let selectedGoalSound = localStorage.getItem("selectedGoalSound") || "sound1";
+    
+    let targetGoal = parseInt(localStorage.getItem("targetGoal")) || 0;
+    let globalVolume = parseFloat(localStorage.getItem("globalVolume")) || 1.0;
+
+    const circle = document.getElementById("circle");
+    const circleCountElement = document.getElementById("circleCount");
+    const countDisplay = document.getElementById("countDisplay");
+
+    // تهيئة الواجهة
+    circleCountElement.textContent = circleCount;
+    countDisplay.textContent = totalCount;
+    document.getElementById("muteAllCheck").checked = muteAll;
+    document.getElementById("muteClickCheck").checked = muteClick;
+    document.getElementById("muteResetCheck").checked = muteReset;
+    document.getElementById("clickSoundSelect").value = selectedClickSound;
+    document.getElementById("errorSoundSelect").value = selectedResetSound;
+    document.getElementById("soundSelect").value = selectedGoalSound;
+    document.getElementById("volumeSlider").value = globalVolume;
+    document.getElementById("volValue").textContent = Math.round(globalVolume * 100) + "%";
+
+    if ([33, 100, 133, 500, 1000].includes(targetGoal)) {
+      document.getElementById("goalSelect").value = targetGoal;
+    } else if (targetGoal > 0) {
+      document.getElementById("goalSelect").value = "custom";
+      document.getElementById("customGoalInput").style.display = "block";
+      document.getElementById("customGoalInput").value = targetGoal;
+    }
+
+    function playSound(id) {
+      if (muteAll) return;
+      const audio = document.getElementById(id);
+      if (audio) {
+        audio.volume = globalVolume;
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+      }
+    }
+
+    // فعل الضغط والهدف
+    circle.onclick = function() {
+      if (document.getElementById("dialogBox").style.display === "block") return;
+      
+      circleCount++;
+      totalCount++;
+      circleCountElement.textContent = circleCount;
+      countDisplay.textContent = totalCount;
+      localStorage.setItem("circleCount", circleCount);
+      localStorage.setItem("totalCount", totalCount);
+
+      if (!muteClick) playSound(selectedClickSound);
+
+      // تشغيل تأثير الهدف
+      if (targetGoal > 0 && circleCount % targetGoal === 0) {
+        setTimeout(() => playSound(selectedGoalSound), 100);
+        circle.classList.add("active-goal");
+        if (navigator.vibrate) navigator.vibrate([300, 100, 300]);
+        setTimeout(() => circle.classList.remove("active-goal"), 2000);
+      }
+    };
+
+    // التحكم بالمنيو
+    document.getElementById("menuButton").onclick = (e) => {
+      const menu = document.getElementById("dropdownMenu");
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+      e.stopPropagation();
+    };
+
+    document.getElementById("goalSelect").onchange = function() {
+      if(this.value === "custom") {
+        document.getElementById("customGoalInput").style.display = "block";
+      } else {
+        document.getElementById("customGoalInput").style.display = "none";
+        targetGoal = parseInt(this.value);
+        localStorage.setItem("targetGoal", targetGoal);
+      }
+    };
+
+    document.getElementById("customGoalInput").oninput = function() {
+      targetGoal = parseInt(this.value) || 0;
+      localStorage.setItem("targetGoal", targetGoal);
+    };
+
+    document.getElementById("clickSoundSelect").onchange = function() {
+      selectedClickSound = this.value;
+      localStorage.setItem("selectedClickSound", selectedClickSound);
+      playSound(selectedClickSound);
+    };
+
+    document.getElementById("errorSoundSelect").onchange = function() {
+      selectedResetSound = this.value;
+      localStorage.setItem("selectedResetSound", selectedResetSound);
+      playSound(selectedResetSound);
+    };
+
+    document.getElementById("resetButton").onclick = () => {
+      document.getElementById("dialogBox").style.display = "block";
+      document.getElementById("dialogNumber").textContent = circleCount;
+    };
+
+    document.getElementById("resetConfirm").onclick = () => {
+      circleCount = 0;
+      circleCountElement.textContent = 0;
+      localStorage.setItem("circleCount", 0);
+      document.getElementById("dialogBox").style.display = "none";
+      if (!muteReset) playSound(selectedResetSound);
+    };
+
+    document.getElementById("resetTotalBtn").onclick = function() {
+      if(confirm("هل تريد تصفير الإجمالي العام؟")) {
+        totalCount = 0;
+        countDisplay.textContent = 0;
+        localStorage.setItem("totalCount", 0);
+        if (!muteReset) playSound(selectedResetSound);
+      }
+    };
+
+    document.getElementById("cancelReset").onclick = () => {
+      document.getElementById("dialogBox").style.display = "none";
+    };
+
+    document.getElementById("volumeSlider").oninput = function() {
+      globalVolume = this.value;
+      document.getElementById("volValue").textContent = Math.round(this.value * 100) + "%";
+      localStorage.setItem("globalVolume", globalVolume);
+    };
+
+    document.getElementById("muteAllCheck").onchange = function() { muteAll = this.checked; localStorage.setItem("muteAll", muteAll); };
+    document.getElementById("muteClickCheck").onchange = function() { muteClick = this.checked; localStorage.setItem("muteClick", muteClick); };
+    document.getElementById("muteResetCheck").onchange = function() { muteReset = this.checked; localStorage.setItem("muteReset", muteReset); };
+    document.getElementById("soundSelect").onchange = function() { selectedGoalSound = this.value; localStorage.setItem("selectedGoalSound", selectedGoalSound); };
+
+    setInterval(() => {
+      const now = new Date();
+      document.getElementById("clock").textContent = String(now.getHours()).padStart(2, '0') + ":" + String(now.getMinutes()).padStart(2, '0');
+    }, 1000);
+
+    window.onclick = (e) => {
+      const menu = document.getElementById("dropdownMenu");
+      if (!e.target.matches('.menu-button') && !menu.contains(e.target)) menu.style.display = "none";
+    };
+  </script>
+</body>
+</html>
+
