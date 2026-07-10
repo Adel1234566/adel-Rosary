@@ -15,9 +15,9 @@
     }
 
     .circle {
-      width: 90vw; height: 90vw; max-width: 600px; max-height: 600px; 
+      width: 90vw; height: 90vw; max-width: 600px; max-height: 600px;
       background-color: #4caf50; border-radius: 50%;
-      display: flex; justify-content: center; align-items: center; 
+      display: flex; justify-content: center; align-items: center;
       font-size: clamp(6rem, 30vw, 13rem); color: white; text-shadow: 2px 5px 20px rgba(0,0,0,0.7);
       margin-bottom: 20px; position: relative; cursor: pointer;
       background-image: url('1 (1).gif'); background-size: cover; background-position: center;
@@ -26,7 +26,6 @@
     }
     .circle:active { transform: scale(0.93); }
 
-    /* تأثير اللون الأصفر عند الهدف */
     @keyframes goalEffect {
       0% { transform: scale(1); border-color: rgba(255,255,255,0.4); box-shadow: 0 25px 60px rgba(0,0,0,0.6); }
       50% { transform: scale(1.05); border-color: #ffd700; box-shadow: 0 0 80px #ffd700; }
@@ -34,56 +33,144 @@
     }
     .active-goal { animation: goalEffect 0.5s ease-in-out 3; border: 12px solid #ffd700 !important; }
 
-    .button { 
-      padding: 15px 30px; background-color: #ff4757; color: white; border: none; 
-      border-radius: 10px; cursor: pointer; position: absolute; top: 15px; right: 10px; 
-      font-weight: bold; z-index: 10; font-size: 1.1rem; 
+    @keyframes secretEffect {
+      0% { transform: scale(1); border-color: rgba(255,255,255,0.4); box-shadow: 0 25px 60px rgba(0,0,0,0.6); }
+      50% { transform: scale(1.05); border-color: #00aaff; box-shadow: 0 0 80px #00aaff; }
+      100% { transform: scale(1); border-color: rgba(255,255,255,0.4); box-shadow: 0 25px 60px rgba(0,0,0,0.6); }
+    }
+    .secret-mode { animation: secretEffect 0.5s ease-in-out 3; border: 12px solid #00aaff !important; }
+
+    .button {
+      padding: 15px 30px; background-color: #ff4757; color: white; border: none;
+      border-radius: 10px; cursor: pointer; position: absolute; top: 15px; right: 10px;
+      font-weight: bold; z-index: 10; font-size: 1.1rem;
     }
 
-    .counter { 
-      position: absolute; bottom: 25px; left: 25px; font-size: 1.6rem; z-index: 8; 
-      background: rgba(255,255,255,0.9); padding: 10px 20px; border-radius: 15px; 
-      border: 2px solid #4caf50; font-weight: bold; 
+    .counter {
+      position: absolute; bottom: 25px; left: 25px; font-size: 1.6rem; z-index: 8;
+      background: rgba(255,255,255,0.9); padding: 10px 20px; border-radius: 15px;
+      border: 2px solid #4caf50; font-weight: bold;
     }
 
-    .menu-button { 
-      position: absolute; top: 15px; left: 5px; background-color: #2f3542; color: white; 
-      padding: 12px 20px; border: none; border-radius: 10px; cursor: pointer; z-index: 100; font-size: 1.2rem; 
+    .menu-button {
+      position: absolute; top: 15px; left: 5px; background-color: #2f3542; color: white;
+      padding: 12px 20px; border: none; border-radius: 10px; cursor: pointer; z-index: 100; font-size: 1.2rem;
     }
 
     .dropdown-menu {
       position: absolute; top: 40px; left: 15px; background-color: white;
-      color: #333; border-radius: 15px; padding: 25px; display: none; flex-direction: column; 
+      color: #333; border-radius: 15px; padding: 25px; display: none; flex-direction: column;
       width: 300px; z-index: 90; box-shadow: 0 15px 40px rgba(0,0,0,0.4); border: 1px solid #ddd;
       max-height: 85vh; overflow-y: auto;
     }
 
     .dropdown-menu label { margin-top: 12px; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
     .styled-select { width: 100%; padding: 8px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; background: #f9f9f9; }
-    
+
     .volume-control { background: #f8f9fa; padding: 10px; border-radius: 10px; margin-top: 10px; }
     .volume-control input { width: 100%; margin-top: 5px; }
 
     hr { width: 100%; margin: 15px 0; border: 0; border-top: 1px solid #eee; }
 
-    .danger-btn { 
-      background: #fff5f5; color: #ff4757; border: 1px solid #ff4757; padding: 12px; 
-      margin-top: 20px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; 
+    .danger-btn {
+      background: #fff5f5; color: #ff4757; border: 1px solid #ff4757; padding: 12px;
+      margin-top: 20px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%;
     }
+
+    .secret-section {
+      background: #e8f4ff; padding: 15px; border-radius: 12px; margin: 10px 0;
+      display: none;
+    }
+    .secret-section.visible { display: block; }
+
+    .secret-input-group {
+      display: flex; gap: 8px; margin-top: 8px; align-items: center;
+    }
+    .secret-input-group input {
+      flex: 1; padding: 8px; border-radius: 8px; border: 1px solid #ccc;
+      font-size: 1rem; width: 70px;
+    }
+    .secret-input-group button {
+      padding: 8px 12px; background: #0077cc; color: white; border: none;
+      border-radius: 8px; cursor: pointer; font-weight: bold;
+    }
+    .secret-input-group button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .secret-timer { color: #0077cc; font-size: 0.8rem; margin-top: 5px; }
+
+    .password-dialog {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center;
+      z-index: 300; backdrop-filter: blur(5px);
+    }
+    .password-dialog.visible { display: flex; }
+
+    .password-box {
+      background: white; padding: 35px; border-radius: 25px; width: 350px;
+      max-width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      border: 3px solid #0077cc; position: relative;
+    }
+    .password-box .close-btn {
+      position: absolute; top: 10px; left: 15px;
+      background: none; border: none; font-size: 1.8rem;
+      cursor: pointer; color: #999; transition: color 0.3s;
+      padding: 0 8px;
+    }
+    .password-box .close-btn:hover { color: #ff4757; }
+    .password-box h2 { color: #0077cc; margin-bottom: 10px; }
+    .password-box p { color: #666; font-size: 0.9rem; margin-bottom: 20px; }
+    .password-box input {
+      width: 100%; padding: 12px; border-radius: 12px; border: 2px solid #ddd;
+      font-size: 1.2rem; text-align: center; margin-bottom: 15px;
+      transition: border-color 0.3s;
+    }
+    .password-box input:focus { border-color: #0077cc; outline: none; }
+    .password-box .error-msg { color: #ff4757; font-size: 0.9rem; margin: 5px 0 10px; display: none; }
+    .password-box button {
+      padding: 12px 30px; background: #0077cc; color: white; border: none;
+      border-radius: 12px; font-size: 1.1rem; cursor: pointer; font-weight: bold;
+      width: 100%; transition: background 0.3s;
+    }
+    .password-box button:hover { background: #005fa3; }
 
     .dialog-box {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
       background-color: white; padding: 30px; border-radius: 25px;
-      display: none; width: 320px; text-align: center; z-index: 110; 
+      display: none; width: 320px; text-align: center; z-index: 110;
       box-shadow: 0 0 150px rgba(0,0,0,0.6); border: 4px solid #ff4757;
     }
     .dialog-box p { font-size: 2.5rem; margin: 15px 0; color: #ff4757; font-weight: bold; }
     .dialog-box button { margin: 10px 5px; padding: 12px 20px; border: none; border-radius: 10px; cursor: pointer; width: 120px; font-weight: bold; }
-    
+
     .btn-confirm { background-color: #ff4757; color: white; }
     .btn-cancel { background-color: #e9ecef; color: #333; }
 
-    .clock { position: absolute; top: 15px; left: 52%; transform: translateX(-50%); font-size: 2.5rem; color: #000; font-weight: 900; z-index: 10; }
+    .datetime-container {
+      position: absolute; top: 15px; left: 52%; transform: translateX(-50%);
+      z-index: 10; text-align: center;
+    }
+    .clock { font-size: 2.5rem; color: #000; font-weight: 900; }
+    .hijri-date { font-size: 1rem; color: #333; font-weight: 600; background: rgba(255,255,255,0.85); padding: 4px 15px; border-radius: 12px; margin-top: 2px; display: inline-block; }
+
+    .secret-notice {
+      position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+      background: rgba(0, 119, 204, 0.9); color: white; padding: 10px 25px;
+      border-radius: 30px; font-weight: bold; z-index: 200;
+      display: none; font-size: 1.2rem; box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+      pointer-events: none;
+    }
+
+    .unlock-btn {
+      background: #0077cc; color: white; border: none; padding: 12px;
+      margin-top: 10px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%;
+      font-size: 1rem;
+    }
+    .unlock-btn:hover { background: #005fa3; }
+    .unlock-btn.locked { background: #0077cc; }
+    .unlock-btn.unlocked { background: #28a745; }
+    .unlock-status {
+      font-size: 0.85rem; color: #28a745; margin-top: 5px; display: none;
+    }
+    .unlock-status.visible { display: block; }
   </style>
 </head>
 <body>
@@ -144,7 +231,7 @@
 
     <label>كتم صوت الضغط <input type="checkbox" id="muteClickCheck"></label>
     <label>كتم صوت التصفير <input type="checkbox" id="muteResetCheck"></label>
-    
+
     <hr>
 
     <label>صوت التنبيه (الهدف):</label>
@@ -166,7 +253,41 @@
     </select>
     <input type="number" id="customGoalInput" placeholder="أدخل الرقم" class="styled-select" style="display:none;">
 
+    <hr>
+
+    <div style="margin: 10px 0;">
+      <button class="unlock-btn locked" id="unlockSecretBtn">🔐 فتح الرقم السري</button>
+      <div class="unlock-status" id="unlockStatus">✅ تم فتح الرقم السري</div>
+    </div>
+
+    <div class="secret-section" id="secretSection">
+      <label style="font-size: 1.1rem; color: #0077cc;">🔐 إعدادات الرقم السري</label>
+      <p style="font-size: 0.8rem; color: #555; margin: 5px 0 10px;">اضبط قيمة كل ضغطة (لمدة دقيقة واحدة)</p>
+
+      <div class="secret-input-group">
+        <input type="number" id="secretValue" placeholder="القيمة" min="1" value="10">
+        <button id="secretActivateBtn">تفعيل</button>
+        <button id="secretDeactivateBtn" style="background:#ff6b6b; border-color:#ff6b6b;">إلغاء</button>
+      </div>
+      <div class="secret-timer" id="secretTimer">⏱ غير مفعل</div>
+      <div style="font-size: 0.8rem; color: #666; margin-top: 8px;">
+        الحالة: <span id="secretStatusText">غير مفعل</span>
+      </div>
+    </div>
+
     <button id="resetTotalBtn" class="danger-btn">تصفير الإجمالي العام 00</button>
+  </div>
+
+  <!-- مربع حوار الرقم السري -->
+  <div class="password-dialog" id="passwordDialog">
+    <div class="password-box">
+      <button class="close-btn" id="passwordCloseBtn">✕</button>
+      <h2>🔐 أدخل الرقم السري</h2>
+      <p>للوصول إلى إعدادات الرقم السري</p>
+      <input type="password" id="passwordInput" placeholder="أدخل الرقم السري" autocomplete="off">
+      <div class="error-msg" id="passwordError">❌ الرقم السري غير صحيح</div>
+      <button id="passwordConfirmBtn">تأكيد</button>
+    </div>
   </div>
 
   <div class="circle" id="circle"><span id="circleCount">0</span></div>
@@ -180,26 +301,50 @@
     <button class="btn-cancel" id="cancelReset">إلغاء</button>
   </div>
 
-  <div class="clock" id="clock">00:00</div>
+  <div class="datetime-container">
+    <div class="clock" id="clock">00:00</div>
+    <div class="hijri-date" id="hijriDate">التاريخ الهجري</div>
+  </div>
+
+  <div class="secret-notice" id="secretNotice">🔐 وضع الرقم السري مفعل!</div>
 
   <script>
     /* --- JavaScript البرمجة --- */
+    const SECRET_PASSWORD = "adel1970";
+    const SECRET_DURATION = 60 * 1000;
+
     let circleCount = parseInt(localStorage.getItem("circleCount")) || 0;
     let totalCount = parseInt(localStorage.getItem("totalCount")) || 0;
     let muteAll = localStorage.getItem("muteAll") === "true";
     let muteClick = localStorage.getItem("muteClick") === "true";
     let muteReset = localStorage.getItem("muteReset") === "true";
-    
+
     let selectedClickSound = localStorage.getItem("selectedClickSound") || "clickSound1";
     let selectedResetSound = localStorage.getItem("selectedResetSound") || "errorSound1";
     let selectedGoalSound = localStorage.getItem("selectedGoalSound") || "sound1";
-    
+
     let targetGoal = parseInt(localStorage.getItem("targetGoal")) || 0;
     let globalVolume = parseFloat(localStorage.getItem("globalVolume")) || 1.0;
+
+    let secretValue = 1;
+    let secretActive = false;
+    let secretEndTime = 0;
+    let secretTimerInterval = null;
+    let isSecretUnlocked = localStorage.getItem("secretUnlocked") === "true";
 
     const circle = document.getElementById("circle");
     const circleCountElement = document.getElementById("circleCount");
     const countDisplay = document.getElementById("countDisplay");
+    const secretNotice = document.getElementById("secretNotice");
+
+    const passwordDialog = document.getElementById("passwordDialog");
+    const passwordInput = document.getElementById("passwordInput");
+    const passwordError = document.getElementById("passwordError");
+    const passwordConfirmBtn = document.getElementById("passwordConfirmBtn");
+    const passwordCloseBtn = document.getElementById("passwordCloseBtn");
+    const unlockSecretBtn = document.getElementById("unlockSecretBtn");
+    const unlockStatus = document.getElementById("unlockStatus");
+    const secretSection = document.getElementById("secretSection");
 
     // تهيئة الواجهة
     circleCountElement.textContent = circleCount;
@@ -221,6 +366,35 @@
       document.getElementById("customGoalInput").value = targetGoal;
     }
 
+    if (isSecretUnlocked) {
+      unlockStatus.classList.add("visible");
+      secretSection.classList.add("visible");
+      unlockSecretBtn.textContent = "🔐 الرقم السري مفتوح";
+      unlockSecretBtn.className = "unlock-btn unlocked";
+    }
+
+    const savedSecretActive = localStorage.getItem("secretActive") === "true";
+    const savedSecretValue = parseInt(localStorage.getItem("secretValue")) || 1;
+    const savedSecretEndTime = parseInt(localStorage.getItem("secretEndTime")) || 0;
+
+    if (savedSecretActive && savedSecretEndTime > Date.now() && isSecretUnlocked) {
+      secretActive = true;
+      secretValue = savedSecretValue;
+      secretEndTime = savedSecretEndTime;
+      document.getElementById("secretValue").value = secretValue;
+      document.getElementById("secretActivateBtn").textContent = "مفعل ✓";
+      document.getElementById("secretActivateBtn").style.background = "#28a745";
+      document.getElementById("secretActivateBtn").style.borderColor = "#28a745";
+      document.getElementById("secretStatusText").textContent = `مفعل (${secretValue})`;
+      document.getElementById("secretStatusText").style.color = "#28a745";
+      startSecretTimer();
+      showSecretNotice();
+    } else {
+      localStorage.removeItem("secretActive");
+      localStorage.removeItem("secretValue");
+      localStorage.removeItem("secretEndTime");
+    }
+
     function playSound(id) {
       if (muteAll) return;
       const audio = document.getElementById(id);
@@ -231,12 +405,195 @@
       }
     }
 
-    // فعل الضغط والهدف
+    function showSecretNotice() {
+      secretNotice.style.display = "block";
+      secretNotice.textContent = `🔐 وضع الرقم السري مفعل: +${secretValue}`;
+      clearTimeout(secretNotice._hideTimer);
+      secretNotice._hideTimer = setTimeout(() => {
+        secretNotice.style.display = "none";
+      }, 3000);
+    }
+
+    function startSecretTimer() {
+      if (secretTimerInterval) clearInterval(secretTimerInterval);
+      const timerElement = document.getElementById("secretTimer");
+
+      secretTimerInterval = setInterval(() => {
+        const remaining = secretEndTime - Date.now();
+        if (remaining <= 0) {
+          clearInterval(secretTimerInterval);
+          secretTimerInterval = null;
+          deactivateSecret();
+          lockSecretAndShowDialog();
+          timerElement.textContent = "⏱ انتهت الصلاحية";
+          return;
+        }
+        const seconds = Math.floor(remaining / 1000);
+        timerElement.textContent = `⏱ متبقي: ${seconds} ثانية`;
+      }, 1000);
+    }
+
+    function lockSecretAndShowDialog() {
+      secretActive = false;
+      secretValue = 1;
+
+      localStorage.removeItem("secretActive");
+      localStorage.removeItem("secretValue");
+      localStorage.removeItem("secretEndTime");
+
+      isSecretUnlocked = false;
+      localStorage.removeItem("secretUnlocked");
+      secretSection.classList.remove("visible");
+      unlockStatus.classList.remove("visible");
+      unlockSecretBtn.textContent = "🔐 فتح الرقم السري";
+      unlockSecretBtn.className = "unlock-btn locked";
+
+      document.getElementById("secretActivateBtn").textContent = "تفعيل";
+      document.getElementById("secretActivateBtn").style.background = "#0077cc";
+      document.getElementById("secretActivateBtn").style.borderColor = "#0077cc";
+      document.getElementById("secretStatusText").textContent = "غير مفعل";
+      document.getElementById("secretStatusText").style.color = "#666";
+      document.getElementById("secretTimer").textContent = "⏱ غير مفعل";
+      circle.classList.remove("secret-mode");
+    }
+
+    function activateSecret() {
+      if (!isSecretUnlocked) {
+        alert("الرجاء فتح الرقم السري أولاً");
+        return;
+      }
+      const input = document.getElementById("secretValue");
+      let val = parseInt(input.value);
+      if (isNaN(val) || val < 1) {
+        alert("الرجاء إدخال رقم صحيح أكبر من 0");
+        return;
+      }
+
+      secretValue = val;
+      secretActive = true;
+      secretEndTime = Date.now() + SECRET_DURATION;
+
+      localStorage.setItem("secretActive", "true");
+      localStorage.setItem("secretValue", secretValue);
+      localStorage.setItem("secretEndTime", secretEndTime);
+
+      document.getElementById("secretActivateBtn").textContent = "مفعل ✓";
+      document.getElementById("secretActivateBtn").style.background = "#28a745";
+      document.getElementById("secretActivateBtn").style.borderColor = "#28a745";
+      document.getElementById("secretStatusText").textContent = `مفعل (${secretValue})`;
+      document.getElementById("secretStatusText").style.color = "#28a745";
+
+      startSecretTimer();
+      showSecretNotice();
+      document.getElementById("dropdownMenu").style.display = "none";
+    }
+
+    function deactivateSecret() {
+      secretActive = false;
+      secretValue = 1;
+      if (secretTimerInterval) {
+        clearInterval(secretTimerInterval);
+        secretTimerInterval = null;
+      }
+
+      localStorage.removeItem("secretActive");
+      localStorage.removeItem("secretValue");
+      localStorage.removeItem("secretEndTime");
+
+      document.getElementById("secretActivateBtn").textContent = "تفعيل";
+      document.getElementById("secretActivateBtn").style.background = "#0077cc";
+      document.getElementById("secretActivateBtn").style.borderColor = "#0077cc";
+      document.getElementById("secretStatusText").textContent = "غير مفعل";
+      document.getElementById("secretStatusText").style.color = "#666";
+      document.getElementById("secretTimer").textContent = "⏱ غير مفعل";
+      circle.classList.remove("secret-mode");
+    }
+
+    function openPasswordDialog() {
+      passwordDialog.classList.add("visible");
+      passwordInput.value = "";
+      passwordError.style.display = "none";
+      setTimeout(() => passwordInput.focus(), 100);
+    }
+
+    function closePasswordDialog() {
+      passwordDialog.classList.remove("visible");
+    }
+
+    function verifyPassword() {
+      const input = passwordInput.value.trim();
+      if (input === SECRET_PASSWORD) {
+        closePasswordDialog();
+        isSecretUnlocked = true;
+        localStorage.setItem("secretUnlocked", "true");
+        unlockStatus.classList.add("visible");
+        secretSection.classList.add("visible");
+        unlockSecretBtn.textContent = "🔐 الرقم السري مفتوح";
+        unlockSecretBtn.className = "unlock-btn unlocked";
+        document.getElementById("dropdownMenu").style.display = "none";
+        setTimeout(() => {
+          document.getElementById("dropdownMenu").style.display = "flex";
+        }, 100);
+      } else {
+        passwordError.style.display = "block";
+        passwordInput.value = "";
+        passwordInput.focus();
+        setTimeout(() => {
+          passwordError.style.display = "none";
+        }, 3000);
+      }
+    }
+
+    // أحداث الرقم السري
+    unlockSecretBtn.onclick = function(e) {
+      e.stopPropagation();
+      if (isSecretUnlocked) {
+        const menu = document.getElementById("dropdownMenu");
+        menu.style.display = "none";
+        setTimeout(() => {
+          menu.style.display = "flex";
+        }, 100);
+        return;
+      }
+      openPasswordDialog();
+    };
+
+    passwordCloseBtn.onclick = closePasswordDialog;
+    passwordConfirmBtn.onclick = verifyPassword;
+    passwordInput.onkeydown = function(e) {
+      if (e.key === "Enter") verifyPassword();
+    };
+
+    passwordDialog.onclick = function(e) {
+      if (e.target === this) {
+        closePasswordDialog();
+      }
+    };
+
+    document.getElementById("secretActivateBtn").onclick = activateSecret;
+    document.getElementById("secretDeactivateBtn").onclick = deactivateSecret;
+
+    document.getElementById("secretValue").onkeydown = function(e) {
+      if (e.key === "Enter") activateSecret();
+    };
+
+    // فعل الضغط
     circle.onclick = function() {
       if (document.getElementById("dialogBox").style.display === "block") return;
-      
-      circleCount++;
-      totalCount++;
+
+      let addValue = 1;
+
+      if (secretActive && secretEndTime > Date.now() && isSecretUnlocked) {
+        addValue = secretValue;
+        circle.classList.add("secret-mode");
+        setTimeout(() => circle.classList.remove("secret-mode"), 2000);
+      } else if (secretActive && secretEndTime <= Date.now()) {
+        deactivateSecret();
+        return;
+      }
+
+      circleCount += addValue;
+      totalCount += addValue;
       circleCountElement.textContent = circleCount;
       countDisplay.textContent = totalCount;
       localStorage.setItem("circleCount", circleCount);
@@ -244,7 +601,6 @@
 
       if (!muteClick) playSound(selectedClickSound);
 
-      // تشغيل تأثير الهدف
       if (targetGoal > 0 && circleCount % targetGoal === 0) {
         setTimeout(() => playSound(selectedGoalSound), 100);
         circle.classList.add("active-goal");
@@ -253,7 +609,7 @@
       }
     };
 
-    // التحكم بالمنيو
+    // باقي الأحداث
     document.getElementById("menuButton").onclick = (e) => {
       const menu = document.getElementById("dropdownMenu");
       menu.style.display = menu.style.display === "flex" ? "none" : "flex";
@@ -324,10 +680,112 @@
     document.getElementById("muteResetCheck").onchange = function() { muteReset = this.checked; localStorage.setItem("muteReset", muteReset); };
     document.getElementById("soundSelect").onchange = function() { selectedGoalSound = this.value; localStorage.setItem("selectedGoalSound", selectedGoalSound); };
 
-    setInterval(() => {
+    /* ============================================================
+       خوارزمية دقيقة لتحويل التاريخ الميلادي إلى هجري (تقويم أم القرى)
+       ============================================================ */
+    function gregorianToHijri(gy, gm, gd) {
+      // ثوابت تقويم أم القرى
+      const g_days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      const h_days_in_month = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
+
+      // حساب الأيام المنقضية من بداية التقويم الميلادي (1/1/1)
+      function gregorianToJulianDay(y, m, d) {
+        if (m <= 2) {
+          y--;
+          m += 12;
+        }
+        const a = Math.floor(y / 100);
+        const b = 2 - a + Math.floor(a / 4);
+        return Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + d + b - 1524;
+      }
+
+      // حساب اليوم اليولياني للتاريخ الميلادي
+      const jd = gregorianToJulianDay(gy, gm, gd);
+
+      // تحويل اليوم اليولياني إلى التاريخ الهجري
+      // المعادلة تعتمد على أن 1 محرم 1 هـ يوافق 16 يوليو 622 م (اليوم اليولياني 1948439.5)
+      const hjd = jd - 1948439;
+
+      // حساب السنة الهجرية التقريبية
+      let hy = Math.floor((30 * hjd + 10646) / 10631);
+      if (hy < 1) hy = 1;
+
+      // حساب بداية السنة الهجرية
+      let hjdStart = Math.floor((hy - 1) * 10631 / 30) + 1;
+
+      // حساب اليوم من بداية السنة الهجرية
+      let daysInYear = hjd - hjdStart + 1;
+
+      // تحديد الشهر واليوم
+      let hm = 0;
+      let hd = 0;
+      let daysSum = 0;
+
+      // حساب عدد أيام كل شهر (مع مراعاة السنة الكبيسة الهجرية)
+      // السنة الكبيسة الهجرية: إذا كانت (11 * hy + 14) % 30 < 11
+      const isHijriLeap = ((11 * hy + 14) % 30) < 11;
+
+      for (let m = 0; m < 12; m++) {
+        let monthDays = h_days_in_month[m];
+        if (m === 11 && isHijriLeap) {
+          monthDays = 30; // ذو الحجة في السنة الكبيسة 30 يوم
+        }
+        if (daysInYear <= daysSum + monthDays) {
+          hm = m;
+          hd = daysInYear - daysSum;
+          break;
+        }
+        daysSum += monthDays;
+      }
+
+      // ضبط النتائج في حالات خاصة
+      if (hd === 0) hd = 1;
+      if (hm < 0) hm = 0;
+      if (hm > 11) hm = 11;
+
+      // أسماء الأشهر الهجرية
+      const monthNames = ["محرم", "صفر", "ربيع الأول", "ربيع الثاني",
+                          "جمادى الأولى", "جمادى الثانية", "رجب", "شعبان",
+                          "رمضان", "شوال", "ذو القعدة", "ذو الحجة"];
+
+      // أسماء أيام الأسبوع
+      const weekdays = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+
+      // حساب اليوم من الأسبوع
+      let weekdayIndex = Math.floor((jd + 1.5) % 7);
+      if (weekdayIndex < 0) weekdayIndex += 7;
+      if (weekdayIndex >= 7) weekdayIndex -= 7;
+
+      return {
+        day: hd,
+        month: monthNames[hm],
+        year: hy,
+        weekday: weekdays[weekdayIndex]
+      };
+    }
+
+    function updateDateTime() {
       const now = new Date();
-      document.getElementById("clock").textContent = String(now.getHours()).padStart(2, '0') + ":" + String(now.getMinutes()).padStart(2, '0');
-    }, 1000);
+
+      // الساعة
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById("clock").textContent = hours + ":" + minutes;
+
+      // التاريخ الهجري باستخدام الخوارزمية الدقيقة
+      const gy = now.getFullYear();
+      const gm = now.getMonth() + 1;
+      const gd = now.getDate();
+
+      const hijri = gregorianToHijri(gy, gm, gd);
+
+      document.getElementById("hijriDate").textContent =
+        `${hijri.weekday} ${hijri.day} ${hijri.month} ${hijri.year} هـ`;
+    }
+
+    // تحديث كل ثانية
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
 
     window.onclick = (e) => {
       const menu = document.getElementById("dropdownMenu");
@@ -336,4 +794,3 @@
   </script>
 </body>
 </html>
-
