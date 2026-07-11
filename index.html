@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>المسبحة الاحترافية الكاملة</title>
   <style>
     /* --- CSS التنسيقات --- */
@@ -12,6 +12,7 @@
       display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;
       background-color: #f0f0f0; background-image: url('1 (1).gif'); background-size: cover;
       background-position: center; flex-direction: column; overflow: hidden; font-family: sans-serif;
+      position: relative;
     }
 
     .circle {
@@ -46,10 +47,11 @@
       font-weight: bold; z-index: 10; font-size: 1.1rem;
     }
 
+    /* الإجمالي - بدون مربع ومرفوع 20 بكسل */
     .counter {
-      position: absolute; bottom: 25px; left: 25px; font-size: 1.6rem; z-index: 8;
-      background: rgba(255,255,255,0.9); padding: 10px 20px; border-radius: 15px;
-      border: 2px solid #4caf50; font-weight: bold;
+      position: absolute; bottom: 130px; left: 25px; font-size: 1.6rem; z-index: 8;
+      background: transparent; padding: 0; border: none; font-weight: bold;
+      color: rgba(255,255,255,0.95); text-shadow: 0 2px 10px rgba(0,0,0,0.8);
     }
 
     .menu-button {
@@ -144,12 +146,23 @@
     .btn-confirm { background-color: #ff4757; color: white; }
     .btn-cancel { background-color: #e9ecef; color: #333; }
 
+    /* التاريخ الهجري - بدون مربع، طويل (عمودي) */
     .datetime-container {
       position: absolute; top: 15px; left: 52%; transform: translateX(-50%);
       z-index: 10; text-align: center;
     }
-    .clock { font-size: 2.5rem; color: #000; font-weight: 900; }
-    .hijri-date { font-size: 1rem; color: #333; font-weight: 600; background: rgba(255,255,255,0.85); padding: 4px 15px; border-radius: 12px; margin-top: 2px; display: inline-block; }
+    .clock { font-size: 2.5rem; color: #000; font-weight: 900; text-shadow: 0 2px 10px rgba(255,255,255,0.8); }
+    .hijri-date {
+      font-size: 1rem; color: #fff; font-weight: 700;
+      background: transparent; padding: 0; border: none;
+      margin-top: 5px; display: block;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+      position: relative;
+      top: 20px; /* نزول 20 بكسل */
+      line-height: 1.6;
+      white-space: normal;
+      word-break: break-word;
+    }
 
     .secret-notice {
       position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
@@ -171,10 +184,47 @@
       font-size: 0.85rem; color: #28a745; margin-top: 5px; display: none;
     }
     .unlock-status.visible { display: block; }
+
+    .menu-action-btn {
+      background: #f0f0f0; border: 1px solid #ddd; padding: 12px;
+      border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%;
+      margin-top: 8px; text-align: center; transition: background 0.2s;
+      font-size: 1rem;
+    }
+    .menu-action-btn:hover { background: #e0e0e0; }
+
+    .share-options {
+      display: none; flex-direction: column; gap: 8px; margin-top: 10px;
+      padding: 10px; background: #f9f9f9; border-radius: 12px;
+      border: 1px solid #e0e0e0;
+    }
+    .share-options.visible { display: flex; }
+    .share-options button {
+      background: white; border: 1px solid #ddd; padding: 10px;
+      border-radius: 8px; cursor: pointer; font-weight: bold;
+      text-align: center; transition: background 0.2s;
+      font-size: 0.95rem;
+    }
+    .share-options button:hover { background: #f0f0f0; }
+
+     /* تم التعديل هنا: رفعنا النص 30 بكسل إضافية وجعلناه في اليسار */
+    .footer-credit {
+      position: absolute;
+      bottom: 90px; /* رفعنا النص عن الأصل بـ 30 بكسل إضافية (كان 5px) */
+      left: 15px;   /* تم التثبيت في اليسار */
+      font-size: 0.70rem; 
+      color: rgba(255,255,255,0.7);
+      z-index: 5; 
+      background: rgba(0,0,0,0.3); 
+      padding: 4px 12px;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
 
+
+  <!-- عناصر الصوت المخفية -->
   <div style="display:none;">
     <audio id="clickSound1" src="1 (1).mp3" preload="auto"></audio>
     <audio id="clickSound2" src="1 (2).mp3" preload="auto"></audio>
@@ -201,7 +251,22 @@
 
   <button class="menu-button" id="menuButton">☰ الإعدادات</button>
 
+  <!-- القائمة المنسدلة الرئيسية -->
   <div class="dropdown-menu" id="dropdownMenu">
+    <button class="menu-action-btn" id="instructionsBtn">📖 تعليمات</button>
+    <button class="menu-action-btn" id="contactBtn">✉️ راسلنا</button>
+
+    <div class="share-options" id="shareOptions">
+      <button class="share-btn" data-platform="facebook">فيسبوك</button>
+      <button class="share-btn" data-platform="whatsapp">واتس اب</button>
+      <button class="share-btn" data-platform="twitter">تويتر</button>
+      <button class="share-btn" data-platform="youtube">يوتيوب</button>
+      <button class="share-btn" data-platform="instagram">انستغرام</button>
+      <button class="share-btn" data-platform="telegram">تلغرام</button>
+    </div>
+
+    <hr>
+
     <div class="mute-all-box">
       <label>كتم جميع الأصوات 🔇 <input type="checkbox" id="muteAllCheck"></label>
     </div>
@@ -290,6 +355,7 @@
     </div>
   </div>
 
+  <!-- الدائرة الرئيسية -->
   <div class="circle" id="circle"><span id="circleCount">0</span></div>
   <button class="button" id="resetButton">تصفير</button>
   <div class="counter"><span>الإجمالي: </span><span id="countDisplay">0</span></div>
@@ -301,12 +367,16 @@
     <button class="btn-cancel" id="cancelReset">إلغاء</button>
   </div>
 
+  <!-- التاريخ والساعة - بدون مربع -->
   <div class="datetime-container">
     <div class="clock" id="clock">00:00</div>
     <div class="hijri-date" id="hijriDate">التاريخ الهجري</div>
   </div>
 
   <div class="secret-notice" id="secretNotice">🔐 وضع الرقم السري مفعل!</div>
+
+  <!-- حقوق المبرمج -->
+  <div class="footer-credit">تم التصميم بواسطة غزلان للبرمجة - جميع الحقوق محفوظة بإتفاقية عام 2026</div>
 
   <script>
     /* --- JavaScript البرمجة --- */
@@ -609,13 +679,71 @@
       }
     };
 
-    // باقي الأحداث
+    // زر القائمة الرئيسية
     document.getElementById("menuButton").onclick = (e) => {
       const menu = document.getElementById("dropdownMenu");
       menu.style.display = menu.style.display === "flex" ? "none" : "flex";
       e.stopPropagation();
     };
 
+    // زر تعليمات
+    document.getElementById("instructionsBtn").onclick = function(e) {
+      e.stopPropagation();
+      alert(
+        "📖 تعليمات المسبحة:\n\n" +
+        "1. اضغط على الدائرة لزيادة العدد.\n" +
+        "2. زر 'تصفير' يعيد العدد الحالي إلى صفر.\n" +
+        "3. زر 'تصفير الإجمالي' يصفّر كل الأعداد.\n" +
+        "4. يمكنك ضبط الهدف ليصدر صوت عند الوصول له.\n" +
+        "5. ميزة الرقم السري: اضبط قيمة كل ضغطة لمدة دقيقة.\n" +
+        "6. جميع الإعدادات تُحفظ تلقائياً.\n\n" +
+        "تم التصميم بواسطة غزلان للبرمجة - جميع الحقوق محفوظة بإتفاقية عام 2026"
+      );
+    };
+
+    // زر راسلنا - يظهر خيارات المشاركة
+    document.getElementById("contactBtn").onclick = function(e) {
+      e.stopPropagation();
+      const shareOptions = document.getElementById("shareOptions");
+      shareOptions.classList.toggle("visible");
+    };
+
+    // أزرار المشاركة
+    document.querySelectorAll('.share-btn').forEach(btn => {
+      btn.onclick = function(e) {
+        e.stopPropagation();
+        const platform = this.dataset.platform;
+        const url = encodeURIComponent(window.location.href);
+        const text = encodeURIComponent('🔴 مسبحة إلكترونية - عدّد واذكر الله');
+
+        let shareUrl = '';
+        switch(platform) {
+          case 'facebook':
+            shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+            break;
+          case 'whatsapp':
+            shareUrl = `https://api.whatsapp.com/send?text=${text}%20${url}`;
+            break;
+          case 'twitter':
+            shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+            break;
+          case 'youtube':
+            shareUrl = 'https://www.youtube.com/';
+            break;
+          case 'instagram':
+            shareUrl = 'https://www.instagram.com/';
+            break;
+          case 'telegram':
+            shareUrl = `https://t.me/share/url?url=${url}&text=${text}`;
+            break;
+        }
+        if (shareUrl) {
+          window.open(shareUrl, '_blank');
+        }
+      };
+    });
+
+    // باقي الأحداث
     document.getElementById("goalSelect").onchange = function() {
       if(this.value === "custom") {
         document.getElementById("customGoalInput").style.display = "block";
@@ -684,11 +812,9 @@
        خوارزمية دقيقة لتحويل التاريخ الميلادي إلى هجري (تقويم أم القرى)
        ============================================================ */
     function gregorianToHijri(gy, gm, gd) {
-      // ثوابت تقويم أم القرى
       const g_days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
       const h_days_in_month = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
 
-      // حساب الأيام المنقضية من بداية التقويم الميلادي (1/1/1)
       function gregorianToJulianDay(y, m, d) {
         if (m <= 2) {
           y--;
@@ -699,36 +825,25 @@
         return Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + d + b - 1524;
       }
 
-      // حساب اليوم اليولياني للتاريخ الميلادي
       const jd = gregorianToJulianDay(gy, gm, gd);
-
-      // تحويل اليوم اليولياني إلى التاريخ الهجري
-      // المعادلة تعتمد على أن 1 محرم 1 هـ يوافق 16 يوليو 622 م (اليوم اليولياني 1948439.5)
       const hjd = jd - 1948439;
 
-      // حساب السنة الهجرية التقريبية
       let hy = Math.floor((30 * hjd + 10646) / 10631);
       if (hy < 1) hy = 1;
 
-      // حساب بداية السنة الهجرية
       let hjdStart = Math.floor((hy - 1) * 10631 / 30) + 1;
-
-      // حساب اليوم من بداية السنة الهجرية
       let daysInYear = hjd - hjdStart + 1;
 
-      // تحديد الشهر واليوم
       let hm = 0;
       let hd = 0;
       let daysSum = 0;
 
-      // حساب عدد أيام كل شهر (مع مراعاة السنة الكبيسة الهجرية)
-      // السنة الكبيسة الهجرية: إذا كانت (11 * hy + 14) % 30 < 11
       const isHijriLeap = ((11 * hy + 14) % 30) < 11;
 
       for (let m = 0; m < 12; m++) {
         let monthDays = h_days_in_month[m];
         if (m === 11 && isHijriLeap) {
-          monthDays = 30; // ذو الحجة في السنة الكبيسة 30 يوم
+          monthDays = 30;
         }
         if (daysInYear <= daysSum + monthDays) {
           hm = m;
@@ -738,20 +853,16 @@
         daysSum += monthDays;
       }
 
-      // ضبط النتائج في حالات خاصة
       if (hd === 0) hd = 1;
       if (hm < 0) hm = 0;
       if (hm > 11) hm = 11;
 
-      // أسماء الأشهر الهجرية
       const monthNames = ["محرم", "صفر", "ربيع الأول", "ربيع الثاني",
                           "جمادى الأولى", "جمادى الثانية", "رجب", "شعبان",
                           "رمضان", "شوال", "ذو القعدة", "ذو الحجة"];
 
-      // أسماء أيام الأسبوع
       const weekdays = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
 
-      // حساب اليوم من الأسبوع
       let weekdayIndex = Math.floor((jd + 1.5) % 7);
       if (weekdayIndex < 0) weekdayIndex += 7;
       if (weekdayIndex >= 7) weekdayIndex -= 7;
@@ -767,12 +878,10 @@
     function updateDateTime() {
       const now = new Date();
 
-      // الساعة
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
       document.getElementById("clock").textContent = hours + ":" + minutes;
 
-      // التاريخ الهجري باستخدام الخوارزمية الدقيقة
       const gy = now.getFullYear();
       const gm = now.getMonth() + 1;
       const gd = now.getDate();
@@ -783,13 +892,16 @@
         `${hijri.weekday} ${hijri.day} ${hijri.month} ${hijri.year} هـ`;
     }
 
-    // تحديث كل ثانية
     setInterval(updateDateTime, 1000);
     updateDateTime();
 
     window.onclick = (e) => {
       const menu = document.getElementById("dropdownMenu");
-      if (!e.target.matches('.menu-button') && !menu.contains(e.target)) menu.style.display = "none";
+      const shareOptions = document.getElementById("shareOptions");
+      if (!e.target.matches('.menu-button') && !menu.contains(e.target)) {
+        menu.style.display = "none";
+        shareOptions.classList.remove("visible");
+      }
     };
   </script>
 </body>
